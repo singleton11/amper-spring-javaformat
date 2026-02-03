@@ -43,7 +43,10 @@ private fun formatJavaFiles(
         indentationFormat.toIndentationStyle()
     )
     val charset = encoding?.let { Charset.forName(it) } ?: Charset.defaultCharset()
-    return FileFormatter(config).formatFiles(sources.findJavaFiles(), charset).toList()
+    return FileFormatter(config)
+        .formatFiles(sources.findJavaFiles(), charset)
+        .filter { it.hasEdits() }
+        .toList()
 }
 
 private fun ensureReportFileExists(report: Path) {
@@ -80,10 +83,6 @@ fun format(
     @Output report: Path
 ) {
     val edits = formatJavaFiles(sources, javaBaseline, indentationFormat, encoding)
-    if (edits.isEmpty()) {
-        println("Java code is formatted correctly.")
-        return
-    }
     ensureReportFileExists(report)
     edits.forEach { it.save() }
     println("Java code formatted successfully.")
