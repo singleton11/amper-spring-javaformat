@@ -1,0 +1,11 @@
+product: jvm/app
+
+
+settings:
+  jvm:
+    release: 16
+
+plugins:
+  spring-javaformat:
+    enabled: true
+    baseline: J8

@@ -1,0 +1,9 @@
+product: jvm/amper-plugin
+
+dependencies:
+  - io.spring.javaformat:spring-javaformat-formatter:0.0.47
+  - io.spring.javaformat:spring-javaformat-formatter-eclipse-runtime:0.0.47
+
+pluginInfo:
+  settingsClass: Settings
+

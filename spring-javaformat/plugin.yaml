@@ -1,0 +1,12 @@
+
+tasks:
+  checkFormat:
+    action: !generateReport
+      sources: ${module.kotlinJavaSources}
+      report: ${taskOutputDir}/javaformat-report.txt
+
+  format:
+    action: !format
+      sources: ${module.kotlinJavaSources}
+      report: ${taskOutputDir}/javaformat-report.txt
+
