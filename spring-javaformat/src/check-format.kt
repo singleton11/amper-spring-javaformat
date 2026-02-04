@@ -16,12 +16,12 @@ import kotlin.io.path.createParentDirectories
 import kotlin.io.path.exists
 import kotlin.io.path.extension
 
-private fun Baseline?.toJavaBaseline(): JavaBaseline = when (this ?: Baseline.J8) {
+private fun Baseline.toJavaBaseline(): JavaBaseline = when (this) {
     Baseline.J8 -> JavaBaseline.V8
     Baseline.J17 -> JavaBaseline.V17
 }
 
-private fun IndentationFormat?.toIndentationStyle(): IndentationStyle = when (this ?: IndentationFormat.SPACES) {
+private fun IndentationFormat.toIndentationStyle(): IndentationStyle = when (this) {
     IndentationFormat.TABS -> IndentationStyle.TABS
     IndentationFormat.SPACES -> IndentationStyle.SPACES
 }
@@ -34,15 +34,16 @@ private fun ModuleSources.findJavaFiles(): List<File> =
 
 private fun formatJavaFiles(
     sources: ModuleSources,
-    javaBaseline: Baseline?,
-    indentationFormat: IndentationFormat?,
-    encoding: String?
+    javaBaseline: Baseline,
+    indentationFormat: IndentationFormat,
+    encoding: String
 ): List<FileEdit> {
     val config = JavaFormatConfig.of(
         javaBaseline.toJavaBaseline(),
         indentationFormat.toIndentationStyle()
     )
-    val charset = encoding?.let { Charset.forName(it) } ?: Charset.defaultCharset()
+
+    val charset = Charset.forName(encoding)
     return FileFormatter(config)
         .formatFiles(sources.findJavaFiles(), charset)
         .filter { it.hasEdits() }
@@ -59,9 +60,9 @@ private fun ensureReportFileExists(report: Path) {
 @TaskAction
 fun generateReport(
     @Input sources: ModuleSources,
-    javaBaseline: Baseline?,
-    indentationFormat: IndentationFormat?,
-    encoding: String?,
+    javaBaseline: Baseline,
+    indentationFormat: IndentationFormat,
+    encoding: String,
     @Output report: Path
 ) {
     val edits = formatJavaFiles(sources, javaBaseline, indentationFormat, encoding)
@@ -77,9 +78,9 @@ fun generateReport(
 @TaskAction
 fun format(
     @Input sources: ModuleSources,
-    javaBaseline: Baseline?,
-    indentationFormat: IndentationFormat?,
-    encoding: String?,
+    javaBaseline: Baseline,
+    indentationFormat: IndentationFormat,
+    encoding: String,
     @Output report: Path
 ) {
     val edits = formatJavaFiles(sources, javaBaseline, indentationFormat, encoding)

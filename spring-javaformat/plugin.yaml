@@ -1,12 +1,16 @@
-
 tasks:
   checkFormat:
     action: !generateReport
       sources: ${module.kotlinJavaSources}
       report: ${taskOutputDir}/javaformat-report.txt
+      encoding: ${pluginSettings.encoding}
+      indentationFormat: ${pluginSettings.indentation}
+      javaBaseline: ${pluginSettings.baseline}
 
   format:
     action: !format
       sources: ${module.kotlinJavaSources}
       report: ${taskOutputDir}/javaformat-report.txt
-
+      encoding: ${pluginSettings.encoding}
+      indentationFormat: ${pluginSettings.indentation}
+      javaBaseline: ${pluginSettings.baseline}

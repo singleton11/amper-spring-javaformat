@@ -12,7 +12,7 @@ enum class Baseline {
 
 @Configurable
 interface Settings {
-    val indentation: IndentationFormat?
-    val baseline: Baseline?
-    val encoding: String?
+    val indentation: IndentationFormat get() = IndentationFormat.SPACES
+    val baseline: Baseline get() = Baseline.J8
+    val encoding: String get() = "UTF-8"
 }

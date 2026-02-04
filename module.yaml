@@ -8,4 +8,5 @@ settings:
 plugins:
   spring-javaformat:
     enabled: true
-    baseline: J8
+    baseline: J17
+    indentation: TABS
